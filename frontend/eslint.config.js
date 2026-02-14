@@ -1,29 +1,53 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import js from '@eslint/js';
+import react from 'eslint-plugin-react';
 
-export default defineConfig([
-  globalIgnores(['dist']),
+export default [
+  js.configs.recommended,
   {
-    files: ['**/*.{js,jsx}'],
-    extends: [
-      js.configs.recommended,
-      reactHooks.configs.flat.recommended,
-      reactRefresh.configs.vite,
-    ],
+    files: ["**/*.js", "**/*.jsx"],
     languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+      ecmaVersion: 2021,
+      sourceType: "module",
       parserOptions: {
-        ecmaVersion: 'latest',
-        ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true
+        }
       },
+      globals: {
+        window: "readonly",
+        document: "readonly",
+        console: "readonly",
+        sessionStorage: "readonly",
+        fetch: "readonly"
+      }
+    },
+    plugins: {
+      react
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
-    },
+      "react/react-in-jsx-scope": "off",
+      "no-unused-vars": "off"
+    }
   },
-])
+  {
+    files: ["**/__tests__/**/*.js", "**/*.test.js"],
+    languageOptions: {
+      globals: {
+        test: "readonly",
+        expect: "readonly",
+        describe: "readonly",
+        beforeAll: "readonly",
+        afterAll: "readonly"
+      }
+    }
+  },
+  {
+    files: ["cypress.config.js"],
+    rules: {
+      "no-unused-vars": "off"
+    }
+  },
+  {
+    ignores: ["eslint.config.js"]
+  }
+];
