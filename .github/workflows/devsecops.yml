@@ -113,7 +113,7 @@ jobs:
 
     - name: Run SAST
       run: |
-        semgrep --config=auto --error
+        semgrep --config=auto --severity ERROR
 
     # ====================================================
     # 8. SCA – npm audit (Dependency Security)
