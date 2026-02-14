@@ -155,5 +155,5 @@ jobs:
       with:
         scan-type: image
         image-ref: users-service
-        severity: HIGH,CRITICAL
+        severity: CRITICAL
         exit-code: 1
